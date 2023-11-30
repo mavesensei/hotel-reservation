@@ -2,66 +2,61 @@
 #include <iomanip>
 #include <string>
 using namespace std;
-double hotel1(int breakfast, int dinner, int days){
-    double pr = 0;
-    if(breakfast == 1){
-        pr += 40;
-    }
-    if(dinner == 1){
-        pr += 70;
-    }
-    if(days > 3){
-        pr *= 1 - 0.3;
-    }
-    return pr * days;
+int roomstatus = 1; 
+bool isroomempty(int roomnumber) {
+    return roomstatus == 1;
 }
-double hotel2(int breakfast, int dinner, int days){
+double calculateHotelCost(int hotelNumber, int breakfast, int dinner, int days, int wifi, int roomnumber) {
     double pr = 0;
-    if(breakfast == 1){
-        pr += 60;
+    if (!isroomempty(roomnumber)) {
+        cout << "Sorry, the room is currently busy.\n";
+        return 0;
     }
-    if(dinner == 1){
-        pr += 100;
-    }
-    if(days > 3){
-        pr *= 1 - 0.5;
-    }
-    return pr * days;
-}
-double hotel3(int breakfast, int dinner, int days){
-    double pr = 0;
-    if(breakfast == 1){
-        pr += 100;
-    }
-    if(dinner == 1){
-        pr += 150;
-    }
-    if(days > 3){
-        pr *= 1 - 0.8;
+    switch (hotelNumber) {
+        case 1:
+            if (breakfast == 1) pr += 40;
+            if (dinner == 1) pr += 70;
+            if (wifi == 1) pr += 10;
+            if (days > 3) pr *= 1 - 0.3;
+            break;
+        case 2:
+            if (breakfast == 1) pr += 60;
+            if (dinner == 1) pr += 100;
+            if (wifi == 1) pr += 40;
+            if (days > 3) pr *= 1 - 0.5;
+            break;
+        case 3:
+            if (breakfast == 1) pr += 100;
+            if (dinner == 1) pr += 150;
+            if (wifi == 1) pr += 10;
+            if (days > 3) pr *= 1 - 0.8;
+            break;
+        default:
+            cout << "There's no such a hotel for your choice.\n";
+            return 0;
     }
     return pr * days;
 }
 int main(){
-    int breakfast, dinner, days, price;
-    double hp1, hp2, hp3;
-    cout << "Do you want breakfast? (1-yes 2-no)\n";
-    cin >> breakfast;
-    cout << "Do you want dinner? (1-yes 2-no)\n";
-    cin >> dinner;
-    cout << "How many days you are gonna stay? \n";
+    int days, hotela, breakfast, dinner, wifi, roomnumber;
+    double hotelcost;
+    cout << "How many days are you going to stay? \n";
     cin >> days;
+    cout << "Enter your preferences for each day:\n";
+    for (int day = 1; day <= days; ++day) {
+        cout << "Day " << day << ":\n\n";
+        cout << "Do you want breakfast? (1-yes 2-no)\n";
+        cin >> breakfast;
+        cout << "Do you want dinner? (1-yes 2-no)\n";
+        cin >> dinner;
+        cout << "Do you want wifi? (1-yes 2-no)\n";
+        cin >> wifi;
+    }
+    cout << "Enter the room number: ";
+    cin >> roomnumber;
     cout << "Which hotel would you prefer? (1-2-3)\n";
-    cin >> price;
-    hp1 = hotel1(breakfast, dinner, days);
-    hp2 = hotel2(breakfast, dinner, days);
-    hp3 = hotel3(breakfast, dinner, days);
-    double min = hp1;
-    if(hp2 < min){
-        min = hp2;
-    }
-    if(hp3 < min){
-        min = hp3;
-    }
-    cout << "Your total will be : " << fixed << setprecision(2) << min << endl;
+    cin >> hotela;
+    hotelcost = calculateHotelCost(hotela, breakfast, dinner, days, wifi, roomnumber);
+    cout << "Your total will be: " << fixed << setprecision(2) << hotelcost << endl;
     return 0;
 }
