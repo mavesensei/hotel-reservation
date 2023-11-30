@@ -28,7 +28,7 @@ double calculateHotelCost(int hotelNumber, int breakfast, int dinner, int days, 
         case 3:
             if (breakfast == 1) pr += 100;
             if (dinner == 1) pr += 150;
-            if (wifi == 1) pr += 10;
+            if (wifi == 1) pr += 100;
             if (days > 3) pr *= 1 - 0.8;
             break;
         default:
